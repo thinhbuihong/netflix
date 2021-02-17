@@ -14,13 +14,18 @@ export default function FaqsContainer() {
           </Accordion.Item>
         ))}
       </Accordion.Frame>
-
-      <OptForm>
-        <OptForm.Input placeholder="email address" />
-        <OptForm.Button>Try it now</OptForm.Button>
-        <OptForm.Break />
-        <OptForm.Text>Ready to watch? Enter your email to create or restart your membership</OptForm.Text>
-      </OptForm>
+      <OptFormContainer></OptFormContainer>
     </Accordion>
+  )
+}
+export const OptFormContainer = () => {
+  return (
+    <OptForm>
+      <OptForm.Input placeholder="email address" />
+      <OptForm.Button>Try it now</OptForm.Button>
+      <OptForm.Break />
+      <OptForm.Text>Ready to watch? Enter your email to create or restart your membership</OptForm.Text>
+    </OptForm>
+
   )
 }
