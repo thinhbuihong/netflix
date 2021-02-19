@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
+import Fuse from 'fuse.js';
 import { FirebaseContext } from '../context/firebase'
 import FooterContainer from './footer'
 import SelectProfileContainer from './profiles'
-import { Card, Header, Loading } from '../components'
+import { Card, Header, Loading, Player } from '../components'
 import * as ROUTES from '../constans/routes';
 import logo from '../logo.svg';
 
@@ -27,6 +28,19 @@ export default function BrowseContainer({ slides }) {
   useEffect(() => {
     setSlideRows(slides[category])
   }, [slides, category])
+
+  useEffect(() => {
+    const fuse = new Fuse(slideRows,
+      { keys: ['data.description', 'data.genre', 'data.title'] });
+    const results = fuse.search(searchTerm).map(({ item }) => item)
+
+    if (slideRows.length > 0 && searchTerm.length > 3 && results.length > 0) {
+      setSlideRows(results)
+    } else {
+      setSlideRows(slides[category]);
+    }
+
+  }, [searchTerm])
 
   return profile.displayName ? (
     <>
@@ -71,7 +85,9 @@ export default function BrowseContainer({ slides }) {
             City. Arthur wears two masks -- the one he paints for his day job as a clown, and the guise he projects in a
             futile attempt to feel like he's part of the world around him.
           </Header.Text>
-          <Header.PlayButton>Play</Header.PlayButton>
+          <Header.PlayButton>
+            Play
+          </Header.PlayButton>
         </Header.Feature>
       </Header>
 
@@ -90,11 +106,12 @@ export default function BrowseContainer({ slides }) {
                 </Card.Item>
               ))}
             </Card.Entities>
+
             <Card.Feature category={category}>
-              {/* <Player>
+              <Player>
                 <Player.Button />
                 <Player.Video src="/videos/bunny.mp4" />
-              </Player> */}
+              </Player>
             </Card.Feature>
           </Card>
         ))}
