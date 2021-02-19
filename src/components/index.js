@@ -6,3 +6,4 @@ export { default as Header } from './header';
 export { default as Feature } from './feature';
 export { default as Form } from './form';
 export { default as Loading } from './loading';
+export { default as Card } from './card';
